@@ -164,97 +164,97 @@ grad_V_eta = cell2mat(grad_V_eta);
 grad_V_upsilon = cell2mat(grad_V_upsilon);
 tau = cell2mat(tau);
 
-% figure;
-% subplot(2,1,1)
-% plot(t,W_c2);
-% title('W_{c2}');
-% subplot(2,1,2);
-% plot(t,W_a2);
-% title('W_{a2}');
-% 
-% figure;
-% subplot(2,1,1)
-% plot(t,W_c1);
-% title('W_{c1}');
-% subplot(2,1,2);
-% plot(t,W_a1);
-% title('W_{a1}');
-% 
-% figure;
-% plot(t,grad_V_eta(1,:));
-% hold on
-% plot(t,grad_V_eta(2,:));
-% plot(t,grad_V_eta(3,:));
-% hold off
-% title('grad V_{\eta}');
-% figure;
-% plot(t,grad_V_upsilon(1,:));
-% hold on
-% plot(t,grad_V_upsilon(2,:));
-% plot(t,grad_V_upsilon(3,:));
-% hold off
-% title('grad V_{\upsilon}');
-% 
-% figure;
-% plot(t,tau(1,:));
-% hold on
-% plot(t,tau(2,:));
-% plot(t,tau(3,:));
-% hold off
-% legend('Surge Torque','Sway Torque','Yaw Torque');
-% title('Control signal');
-% 
-% figure;
-% subplot(2,1,1);
-% plot(t,W_c2_norm);
-% title('Frobenius norm of W_{c2}');
-% subplot(2,1,2);
-% plot(t,W_a2_norm);
-% title('Frobenius norm of W_{a2}');
-% 
-% figure;
-% subplot(2,1,1);
-% plot(t,W_c1_norm);
-% title('Frobenius norm of W_{c1}');
-% subplot(2,1,2);
-% plot(t,W_a1_norm);
-% title('Frobenius norm of W_{a1}');
-% 
-% figure;
-% index_upsilon = V_upsilon>100;
-% V_upsilon1 = V_upsilon;
-% V_upsilon1(index_upsilon) = 100;
-% plot(t,V_upsilon1);
-% title('V_{\upsilon}');
-% 
-% figure;
-% index_eta = V_eta>100;
-% V_eta1 = V_eta;
-% V_eta1(index_eta) = 100;
-% plot(t,V_eta1);
-% title('V_{\eta}');
-% 
-% figure;
-% subplot(3,1,1);
-% plot(t,z_upsilon(1,:));
-% title('z_{\upsilon_1}');
-% subplot(3,1,2);
-% plot(t,z_upsilon(2,:));
-% title('z_{\upsilon_2}');
-% subplot(3,1,3);
-% plot(t,z_upsilon(3,:));
-% title('z_{\upsilon_3}');
-% 
-% figure;
-% subplot(3,1,1);
-% plot(t,z_eta(1,:));
-% title('z_{\eta_1}');
-% subplot(3,1,2);
-% plot(t,z_eta(2,:));
-% title('z_{\eta_2}');
-% subplot(3,1,3);
-% plot(t,z_eta(3,:));
-% title('z_{\eta_3}');
+figure;
+subplot(2,1,1)
+plot(t,W_c2);
+title('W_{c2}');
+subplot(2,1,2);
+plot(t,W_a2);
+title('W_{a2}');
+
+figure;
+subplot(2,1,1)
+plot(t,W_c1);
+title('W_{c1}');
+subplot(2,1,2);
+plot(t,W_a1);
+title('W_{a1}');
+
+figure;
+plot(t,grad_V_eta(1,:));
+hold on
+plot(t,grad_V_eta(2,:));
+plot(t,grad_V_eta(3,:));
+hold off
+title('grad V_{\eta}');
+figure;
+plot(t,grad_V_upsilon(1,:));
+hold on
+plot(t,grad_V_upsilon(2,:));
+plot(t,grad_V_upsilon(3,:));
+hold off
+title('grad V_{\upsilon}');
+
+figure;
+plot(t,tau(1,:));
+hold on
+plot(t,tau(2,:));
+plot(t,tau(3,:));
+hold off
+legend('Surge Torque','Sway Torque','Yaw Torque');
+title('Control signal');
+
+figure;
+subplot(2,1,1);
+plot(t,W_c2_norm);
+title('Frobenius norm of W_{c2}');
+subplot(2,1,2);
+plot(t,W_a2_norm);
+title('Frobenius norm of W_{a2}');
+
+figure;
+subplot(2,1,1);
+plot(t,W_c1_norm);
+title('Frobenius norm of W_{c1}');
+subplot(2,1,2);
+plot(t,W_a1_norm);
+title('Frobenius norm of W_{a1}');
+
+figure;
+index_upsilon = V_upsilon>100;
+V_upsilon1 = V_upsilon;
+V_upsilon1(index_upsilon) = 100;
+plot(t,V_upsilon1);
+title('V_{\upsilon}');
+
+figure;
+index_eta = V_eta>100;
+V_eta1 = V_eta;
+V_eta1(index_eta) = 100;
+plot(t,V_eta1);
+title('V_{\eta}');
+
+figure;
+subplot(3,1,1);
+plot(t,z_upsilon(1,:));
+title('z_{\upsilon_1}');
+subplot(3,1,2);
+plot(t,z_upsilon(2,:));
+title('z_{\upsilon_2}');
+subplot(3,1,3);
+plot(t,z_upsilon(3,:));
+title('z_{\upsilon_3}');
+
+figure;
+subplot(3,1,1);
+plot(t,z_eta(1,:));
+title('z_{\eta_1}');
+subplot(3,1,2);
+plot(t,z_eta(2,:));
+title('z_{\eta_2}');
+subplot(3,1,3);
+plot(t,z_eta(3,:));
+title('z_{\eta_3}');
 
 figure;
 subplot(3,1,1);

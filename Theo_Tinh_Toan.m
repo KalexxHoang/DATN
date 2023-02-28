@@ -245,7 +245,10 @@ end
 %% Plot
     q = cell2mat(q);
     q_r = cell2mat(q_r);
-
+    W_a = cell2mat(W_a);
+    W_c = cell2mat(W_c);
+    tau = cell2mat(tau);
+%% Plot X,Y,Theta
     figure;
     subplot(3,1,1);
     plot(t,q(1,:));
@@ -273,4 +276,20 @@ end
     title('Trajectory');
     legend('Real Trajectory','Reference Trajectory');
     hold off
-
+%% Plot Wa, Wc
+    figure;
+    subplot(2,1,1)
+    plot(t,W_c);
+    title('W_{c}');
+    subplot(2,1,2);
+    plot(t,W_a);
+    title('W_{a}');
+%% Plot control signal
+    figure;
+    plot(t,tau(1,:));
+    hold on
+    plot(t,tau(2,:));
+    plot(t,tau(3,:));
+    hold off
+    legend('Surge Torque','Sway Torque','Yaw Torque');
+    title('Control signal');

@@ -62,7 +62,7 @@
     grad_V_z = cell(1,size(t,2));
     tau = cell(1,size(t,2));
 %% Initial Conditions
-    tau{1} = [-5;5;5];
+    tau{1} = [-2;1;0];
     q{1} = [1.8;1.6;1.4];
     upsilon{1} = [0.1;0.2;0.3];
     W_c{1} = 200*ones(n_NN,1);
@@ -70,12 +70,6 @@
     gamma_upper{1} = 10*eye(51);
 %% System simulation
 for i = 1:size(t,2)
-%% Noise
-    if i<= 50000
-        noise = sin(t(i))^2*cos(t(i)) + sin(2*t(i))^2*cos(0.1*t(i)) + sin(-1.2*t(i))^2*cos(0.5*t(i)) + sin(t(i))^5 + sin(1.2*t(i))^2 + cos(2.4*t(i))*sin(2.4*t(i))^3;
-    else
-        noise = 0;
-    end
 %% Inertia matrix
     m1 = ((4*m*r^2)/9) + (I_theta*r^2)/(9*l^2) + I_phi;
     m2 = (I_theta*r^2)/(9*l^2) - (2*m*r^2)/9;
@@ -121,12 +115,18 @@ for i = 1:size(t,2)
     %g_cong = pinv(g_x_r);
     g_cong = (pinv(g_x_r'*g_x_r))*(g_x_r');
  %% Reference trajectory
-    q_r{i} = [0.5*cos(2*t(i)) cos(t(i)) cos(0.5*t(i))]';
-    q_r_dot{i} = [-0.5*2*sin(2*t(i)) -sin(t(i)) -0.5*sin(0.5*t(i))]';
+%     q_r{i} = [0.5*cos(2*t(i)) -0.5*sin(2*t(i)) cos(0.5*t(i))]';
+%     q_r_dot{i} = [-sin(2*t(i)) -cos(2*t(i)) -0.5*sin(0.5*t(i))]';
+%     x_r{i} = [q_r{i}' q_r_dot{i}']';
+%     % dxr = hr(xr)
+%     x_r_dot{i} = [-sin(2*t(i)) -cos(2*t(i)) -0.5*sin(0.5*t(i)) -2*cos(2*t(i)) 2*sin(2*t(i)) -0.25*cos(0.5*t(i))]';
+    q_r{i} = [sin(t(i)) cos(t(i)) cos(0.5*t(i))]';
+    q_r_dot{i} = [cos(t(i)) -sin(t(i)) -0.5*sin(0.5*t(i))]';
     x_r{i} = [q_r{i}' q_r_dot{i}']';
     % dxr = hr(xr)
-    x_r_dot{i} = [-sin(2*t(i)) -sin(t(i)) -0.5*sin(0.5*t(i)) -2*cos(2*t(i)) -cos(t(i)) -0.25*cos(0.5*t(i))]';
-    % f(xr)
+    x_r_dot{i} = [cos(t(i)) -sin(t(i)) -0.5*sin(0.5*t(i)) -sin(t(i)) -cos(t(i)) -0.25*cos(0.5*t(i))]';
+
+% f(xr)
     dH_inv_qr = [cos(cos(0.5*t(i)) + pi/3) sin(cos(0.5*t(i)) + pi/3) 0; -cos(cos(0.5*t(i))) -sin(cos(0.5*t(i))) 0; cos(cos(0.5*t(i)) - pi/3) sin(cos(0.5*t(i)) - pi/3) 0];
     % dR = [-sin(q{i}(3)) -cos(q{i}(3)) 0;cos(q{i}(3)) -sin(q{i}(3)) 0;0 0 0];
     % dH = dR/A;
@@ -215,7 +215,7 @@ for i = 1:size(t,2)
     V_z{i} = W_c{i}'*phi_z;
     grad_V_z{i} = grad_phi_z'*W_a{i};
 %% Controller
-    u = -1/2*(pinv(R))*G_z'*grad_phi_z'*W_a{i} + noise;
+    u = -1/2*(pinv(R))*G_z'*grad_phi_z'*W_a{i};
     tau{i+1} = u + g_cong*(x_r_dot{i} - f_x_r);
 %% Update stage
     F_q = upsilon{i};
@@ -245,10 +245,7 @@ end
 %% Plot
     q = cell2mat(q);
     q_r = cell2mat(q_r);
-    W_a = cell2mat(W_a);
-    W_c = cell2mat(W_c);
-    tau = cell2mat(tau);
-%% Plot X,Y,Theta
+
     figure;
     subplot(3,1,1);
     plot(t,q(1,:));
@@ -276,43 +273,3 @@ end
     title('Trajectory');
     legend('Real Trajectory','Reference Trajectory');
     hold off
-%% Plot Wa, Wc
-    figure;
-    subplot(2,1,1)
-    plot(t,W_c(1,:));
-    hold on;
-    plot(t,W_c(2,:));
-    plot(t,W_c(3,:));
-    plot(t,W_c(4,:));
-    plot(t,W_c(5,:));
-    plot(t,W_c(6,:));
-    plot(t,W_c(7,:));
-    plot(t,W_c(8,:));
-    plot(t,W_c(9,:));
-    plot(t,W_c(10,:));
-    title('W_{c}');
-    subplot(2,1,2);
-    plot(t,W_c(1,:));
-    hold on;
-    plot(t,W_a(2,:));
-    plot(t,W_a(3,:));
-    plot(t,W_a(4,:));
-    plot(t,W_a(5,:));
-    plot(t,W_a(6,:));
-    plot(t,W_a(7,:));
-    plot(t,W_a(8,:));
-    plot(t,W_a(9,:));
-    plot(t,W_a(10,:));
-    title('W_{a}');
-%% Plot control signal
-%     Step = 0.001;T_end = 150;
-%     t = 0:Step:T_end;
-    t = t>0.005;
-    figure;
-    plot(t,tau(1,:));
-    hold on
-    plot(t,tau(2,:));
-    plot(t,tau(3,:));
-    hold off
-    legend('Surge Torque','Sway Torque','Yaw Torque');
-    title('Control signal');

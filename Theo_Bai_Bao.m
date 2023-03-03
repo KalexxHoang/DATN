@@ -247,7 +247,7 @@ end
     q_r = cell2mat(q_r);
     W_a = cell2mat(W_a);
     W_c = cell2mat(W_c);
-    tau = cell2mat(tau);
+    
 %% Plot X,Y,Theta
     figure;
     subplot(3,1,1);
@@ -276,9 +276,18 @@ end
     title('Trajectory');
     legend('Real Trajectory','Reference Trajectory');
     hold off
+    %% Plot error trajectory
+    figure;
+    plot(t,q(1,:)-q_r(1,:));
+    hold on
+    plot(t,q(2,:)-q_r(2,:));
+    hold on
+    plot(t,q(3,:)-q_r(3,:));
+    title('Error signal');
+    legend('X error','Y error','Head angle error');
+    hold off
 %% Plot Wa, Wc
     figure;
-    subplot(2,1,1)
     plot(t,W_c(1,:));
     hold on;
     plot(t,W_c(2,:));
@@ -290,8 +299,11 @@ end
     plot(t,W_c(8,:));
     plot(t,W_c(9,:));
     plot(t,W_c(10,:));
-    title('W_{c}');
-    subplot(2,1,2);
+    title('Parameters of the critic NN W_{c}');
+    legend('w1','w2','w3','w4','w5','w6','w7','w8','w9','w10');
+    hold off
+    
+    figure;
     plot(t,W_c(1,:));
     hold on;
     plot(t,W_a(2,:));
@@ -303,16 +315,16 @@ end
     plot(t,W_a(8,:));
     plot(t,W_a(9,:));
     plot(t,W_a(10,:));
-    title('W_{a}');
-%% Plot control signal
-%     Step = 0.001;T_end = 150;
-%     t = 0:Step:T_end;
-    t = t>0.005;
-    figure;
-    plot(t,tau(1,:));
-    hold on
-    plot(t,tau(2,:));
-    plot(t,tau(3,:));
+    title('Parameters of the actor NN W_{a}');
+    legend('w1','w2','w3','w4','w5','w6','w7','w8','w9','w10');
     hold off
-    legend('Surge Torque','Sway Torque','Yaw Torque');
+%% Plot control signal
+    tau = cell2mat(tau);
+    figure;
+    plot(t,tau(1,2:150002));
+    hold on
+    plot(t,tau(2,2:150002));
+    plot(t,tau(3,2:150002));
+    hold off
+    legend('Torque 1','Torque 2','Torque 3');
     title('Control signal');
